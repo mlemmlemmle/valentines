@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family: Georgia, serif;
+      color:#fff;
+      background-image: url('/static/photos/yayBackground.jpg');
+      background-size: cover;
+      background-position: center top;
+      background-attachment: fixed;
+      overflow-y: auto;
+    }
+
+    .veil{
+      min-height:100vh;
+      background: rgba(0,0,0,0.25);
+      padding: 48px 18px 80px;
+    }
+
+    .header{
+      max-width: 980px;
+      margin: 0 auto 22px;
+      text-align: center;
+      text-shadow: 0 6px 18px rgba(0,0,0,0.55);
+    }
+    .header h1{ margin:0 0 8px; font-size:42px; }
+    .header p{ margin:0; font-size:18px; opacity:0.95; }
+
+    .grid{
+      max-width: 980px;
+      margin: 24px auto 0;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      padding: 0 8px;
+    }
+    @media (max-width: 760px){
+      .grid{ grid-template-columns: 1fr; }
+      .header h1{ font-size: 36px; }
+    }
+
+    /* Photo card */
+    .card{
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.35);
+      background: rgba(0,0,0,0.18);
+    }
+
+    .photoWrap{
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      cursor: url('https://cur.cursors-4u.net/symbols/sym-1/sym49.cur'), pointer;
+      transition: transform 240ms ease, box-shadow 240ms ease;
+    }
+
+    .photoWrap img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      display:block;
+    }
+
+    /* Sheer red overlay (only when open / hovered) */
+    .overlay{
+      position:absolute;
+      inset:0;
+      background: rgba(140,0,0,0);
+      transition: background 240ms ease;
+      pointer-events:none;
+    }
+
+    .photoWrap:hover{
+      transform: scale(1.02);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.45);
+    }
+    .photoWrap:hover .overlay{
+      background: rgba(140,0,0,0.18);
+    }
+
+    /* OPEN state after click */
+    .card.open .photoWrap{
+      transform: scale(1.03);
+    }
+    .card.open .overlay{
+      background: rgba(140,0,0,0.35);
+    }
+
+    /* Caption box under image */
+    .caption{
+      display:none;
+      padding: 14px 14px 16px;
+      background: rgba(140,0,0,0.40);
+      border-top: 1px solid rgba(255,255,255,0.18);
+    }
+
+    .card.open .caption{
+      display:block;
+    }
+
+    .dateRow{
+      font-size: 13px;
+      letter-spacing: 0.2px;
+      opacity: 0.95;
+      margin-bottom: 8px;
+      text-shadow: 0 4px 12px rgba(0,0,0,0.55);
+    }
+
+    .caption h3{
+      margin: 0 0 6px;
+      font-size: 18px;
+      text-shadow: 0 4px 12px rgba(0,0,0,0.55);
+    }
+
+    .caption p{
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.35;
+      text-shadow: 0 4px 12px rgba(0,0,0,0.55);
+    }
+
+    .hint{
+      max-width: 980px;
+      margin: 14px auto 0;
+      text-align: center;
+      font-size: 14px;
+      opacity: 0.9;
+      text-shadow: 0 4px 10px rgba(0,0,0,0.55);
+      padding: 0 12px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="veil">
+    <div class="header">
+      <h1>YAY!!! I love you 💕</h1>
+      <p>Click the photos hehe 💌</p>
+    </div>
+
+    <div class="grid">
+
+      <!-- Card 1 -->
+      <div class="card" data-card data-date="2024-07-20" data-title="Our first ever date"
+           data-message="You are my favourite person, I can't help staring at your beautiful face even on the scariest rollercoasters">
+        <div class="photoWrap">
+          <img src="/static/photos/photo1.jpg" alt="Us 1">
+          <div class="overlay"></div>
+        </div>
+        <div class="caption">
+          <div class="dateRow" data-date-row></div>
+          <h3 data-title-row></h3>
+          <p data-message-row></p>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="card" data-card data-date="2025-01-06" data-title="Our first EVER kiss"
+           data-message="I'll never forget how you felt pressed against me moaning into my mouth the first time">
+        <div class="photoWrap">
+          <img src="/static/photos/photo2.PNG" alt="Us 2">
+          <div class="overlay"></div>
+        </div>
+        <div class="caption">
+          <div class="dateRow" data-date-row></div>
+          <h3 data-title-row></h3>
+          <p data-message-row></p>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="card" data-card data-date="2025-03-13" data-title="Your asking me to be your gf scheme"
+           data-message="You planned such a perfect date to ask me to be your girlfriend">
+        <div class="photoWrap">
+          <img src="/static/photos/photo3.jpg" alt="Us 3">
+          <div class="overlay"></div>
+        </div>
+        <div class="caption">
+          <div class="dateRow" data-date-row></div>
+          <h3 data-title-row></h3>
+          <p data-message-row></p>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="card" data-card data-date="2025-07-19" data-title="Your anniversary scheme"
+           data-message="When you schemed in the best way again, I'll never forget how breath taking you were when I saw you at Union Station">
+        <div class="photoWrap">
+          <img src="/static/photos/photo4.JPG" alt="Us 4">
+          <div class="overlay"></div>
+        </div>
+        <div class="caption">
+          <div class="dateRow" data-date-row></div>
+          <h3 data-title-row></h3>
+          <p data-message-row></p>
+        </div>
+      </div>
+
+    </div>
+
+
+
+    <!-- Music (autoplay + JS fallback) -->
+    <audio id="music" autoplay loop>
+      <source src="/static/music/song.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+
+  <script>
+    function formatPrettyDate(isoDate){
+      const d = new Date(isoDate + "T00:00:00");
+      return d.toLocaleDateString(undefined, { year:"numeric", month:"long", day:"numeric" });
+    }
+
+    function daysSince(isoDate){
+      const start = new Date(isoDate + "T00:00:00");
+      const now = new Date();
+      const ms = now.getTime() - start.getTime();
+      return Math.max(0, Math.floor(ms / (1000 * 60 * 60 * 24)));
+    }
+
+    const cards = document.querySelectorAll("[data-card]");
+    cards.forEach(card => {
+      const dateIso = card.dataset.date;
+      const title = card.dataset.title;
+      const message = card.dataset.message;
+
+      card.querySelector("[data-title-row]").textContent = title;
+      card.querySelector("[data-message-row]").textContent = message;
+
+      const pretty = formatPrettyDate(dateIso);
+      const days = daysSince(dateIso);
+      card.querySelector("[data-date-row]").textContent =
+        `${pretty} • ${days} days ago`;
+
+      // Toggle open on click (clicking the image area)
+      card.querySelector(".photoWrap").addEventListener("click", () => {
+        card.classList.toggle("open");
+      });
+    });
+
+    // Autoplay fallback (some browsers block until interaction)
+    const music = document.getElementById("music");
+    window.addEventListener("load", () => { music.play().catch(() => {}); });
+    document.addEventListener("click", () => { music.play().catch(() => {}); }, { once:true });
+  </script>
+</body>
+</html>
