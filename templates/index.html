@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<style>
+body{
+  text-align:left;
+  font-family:'Courier New', monospace;
+  color: rgb(26, 18, 1);
+  background-image: url('/static/photos/letterBackground.jpeg');
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.container{
+  position: absolute;
+  top: 52%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40em;
+}
+
+.letter{
+  font-size: 20px;
+  line-height: 1.2;
+  font-weight: bold;
+}
+
+.line{
+  display:block;
+  min-height:1.4em;
+}
+
+/* SINGLE CURSOR */
+.cursor{
+  display:inline-block;
+  width:2px;
+  height:1em;
+  background:rgb(26,18,1);
+  margin-left:4px;
+  animation: blink 0.8s infinite;
+}
+
+@keyframes blink{
+  50% {opacity:0;}
+}
+
+/* BUTTONS */
+.btnRow{
+  margin-top:20px;
+  display:flex;
+  gap:12px;
+}
+
+button{
+  padding:10px 16px;
+  border:4px solid white;
+  font-family:Georgia, serif;
+  font-size:18px;
+  border-radius:999px;
+  transition: transform 0.2s ease;
+}
+
+#yesBtn{
+  background-color:DarkRed;
+  color:rgb(26,18,1);
+}
+
+#yesBtn:hover{
+  cursor: url('https://cur.cursors-4u.net/symbols/sym-1/sym49.cur'), pointer;
+}
+
+#noBtn{
+  background:#eee;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="letter" id="letter">
+  <div class="line" data-text="To my Angel,"><span></span></div>
+  <div class="line" data-text="I love you to the moon, past the bounds of venus,"><span></span></div>
+  <div class="line" data-text="to the stars, and.."><span></span></div>
+  <div class="line" data-text="and not back,"><span></span></div>
+  <div class="line" data-text="not back down,"><span></span></div>
+  <div class="line" data-text="baby let our love bring us around the universe,"><span></span></div>
+  <div class="line" data-text="never brought down by gravity."><span></span></div>
+  <div class="line" data-text="Be my valentine?"><span></span></div>
+</div>
+
+<div class="btnRow" id="buttons" style="display:none;">
+  <button id="yesBtn" onclick="window.location.href='/yay'">Yes 💕</button>
+  <button id="noBtn">No</button>
+</div>
+
+<p id="pleaText"></p>
+
+</div>
+
+<script>
+const lines = Array.from(document.querySelectorAll(".line"));
+const cursor = document.createElement("span");
+cursor.className = "cursor";
+
+const typingSpeedMs = 35;
+const pauseBetweenLinesMs = 450;
+
+async function typeLine(lineDiv) {
+  const span = lineDiv.querySelector("span");
+  const fullText = lineDiv.dataset.text;
+
+  span.after(cursor);
+
+  for (let i = 0; i < fullText.length; i++) {
+    span.textContent += fullText[i];
+    await new Promise(r => setTimeout(r, typingSpeedMs));
+  }
+
+  await new Promise(r => setTimeout(r, pauseBetweenLinesMs));
+}
+
+async function run() {
+  for (const line of lines) {
+    await typeLine(line);
+  }
+
+  document.getElementById("buttons").style.display = "flex";
+}
+
+run();
+
+/* BUTTON LOGIC */
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const pleaText = document.getElementById("pleaText");
+
+let stage = 0;
+let runawayMode = false;
+noBtn.addEventListener("click", () => {
+  stage++;
+
+  if(stage === 1){
+    pleaText.textContent = "please please please 🥺";
+    noBtn.textContent = "no i love breaking hearts";
+    yesBtn.style.transform = "scale(1.4)";
+    noBtn.style.transform = "scale(0.7)";
+  }
+
+  else if(stage === 2){
+    pleaText.textContent = "PLEASE PLEASE PLEASE 😭";
+    yesBtn.textContent = "PLEASE PLEASE PLEASE";
+    yesBtn.style.transform = "scale(1.9)";
+    noBtn.style.transform = "scale(0.4)";
+  }
+
+  else if(stage === 3){
+    yesBtn.style.transform = "scale(2.6)";
+    yesBtn.style.minWidth = "50vw";
+    noBtn.style.transform = "scale(0.15)";
+  }
+  else if(stage === 4){
+  runawayMode = true;
+}
+
+});
+document.addEventListener("mousemove", (e) => {
+  if(!runawayMode) return;
+
+  const rect = noBtn.getBoundingClientRect();
+
+  const dx = e.clientX - (rect.left + rect.width/2);
+  const dy = e.clientY - (rect.top + rect.height/2);
+
+  const distance = Math.sqrt(dx*dx + dy*dy);
+
+  if(distance < 120){
+    const maxX = window.innerWidth - rect.width;
+    const maxY = window.innerHeight - rect.height;
+
+    noBtn.style.position = "fixed";
+    noBtn.style.left = Math.random() * maxX + "px";
+    noBtn.style.top = Math.random() * maxY + "px";
+  }
+});
+
+</script>
+
+</body>
+</html>
